@@ -1,10 +1,17 @@
-from pymongo import MongoClient
-Mongo_url='mongodb://localhost'
-farma=MongoClient(Mongo_url)
-#base de datos
-db=farma['FarmaApp']
-#coleccion
-datos= db['consultas']
+from pymongo.mongo_client import MongoClient
+uri = "mongodb+srv://nanitave:inteligy@cluster0.cn1aiyy.mongodb.net/farmaapp?retryWrites=true&w=majority"
+# Create a new client and connect to the server
+client = MongoClient(uri)
 
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+    db=client["FarmaApp"]
+    datos=db["Farmacia"]
+    for documento in datos.find():
+        print(documento)
+except Exception as e:
+    print(e)
 #json
-datos.insert_one({"producto": "Dolex 500", "Precio":1500, "ubica":"Farmatodo","fecha":"2023/04/05"})
+
