@@ -10,6 +10,10 @@ engine = pyttsx3.init()
 name = 'amor'
 attemts = 0
 
+# keys
+#with open('src/keys.json') as json_file:
+#    keys = json.load(json_file)
+
 # colors
 green_color = "\033[1;32;40m"
 red_color = "\033[1;31;40m"
@@ -31,7 +35,21 @@ def get_audio():
     r = sr.Recognizer()
     status = False
 
-    with sr.Microphone() as source:
+
+    print ('paso 1')
+
+    with sr.AudioFile('audio.wav') as source:
+        print ('paso 2')
+
+        audio = r.record(source)
+        print ('paso 3')
+        texto1= r.recognize_google(audio, language='es-ES').lower()
+        print ('paso 4')
+        print (texto1)
+
+    with sr.Microphone(
+
+    ) as source:
         print(f"{green_color}({attemts}) Escuchando...{normal_color}")
         r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
@@ -39,8 +57,12 @@ def get_audio():
 
         try:
             rec = r.recognize_google(audio, language='es-ES').lower()
-            print(rec)
-            status = True
+            
+            if name in rec:
+                rec = rec.replace(f"{name} ", "").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+                status = True
+            else:
+                print(f"Vuelve a intentarlo, no reconozco: {rec}")
         except:
             pass
     return {'text':rec, 'status':status}
