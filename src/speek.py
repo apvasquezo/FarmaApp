@@ -10,10 +10,6 @@ engine = pyttsx3.init()
 name = 'amor'
 attemts = 0
 
-# keys
-#with open('src/keys.json') as json_file:
-#    keys = json.load(json_file)
-
 # colors
 green_color = "\033[1;32;40m"
 red_color = "\033[1;31;40m"
@@ -43,12 +39,8 @@ def get_audio():
 
         try:
             rec = r.recognize_google(audio, language='es-ES').lower()
-            
-            if name in rec:
-                rec = rec.replace(f"{name} ", "").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
-                status = True
-            else:
-                print(f"Vuelve a intentarlo, no reconozco: {rec}")
+            print(rec)
+            status = True
         except:
             pass
     return {'text':rec, 'status':status}
